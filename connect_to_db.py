@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import pyodbc
 
 def run_command(command):
-    """Execute a shell command and print its output."""
+    """ Script d'execution de l'installation des drivers et fichiers nécessaires à la connexion distante """
     try:
         result = subprocess.run(command, shell=True, text=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print(result.stdout)
