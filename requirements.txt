@@ -2,3 +2,7 @@ pyodbc
 pandas
 azure-identity
 python-dotenv
+azure-storage-blob
+pyarrow
+pandas
+pillow

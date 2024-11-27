@@ -30,7 +30,7 @@ def connect_to_database(server, database, username, password):
 
 def list_tables(cursor):
     """List all tables with their schemas."""
-    cursor.execute("SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';")
+    cursor.execute("SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA NOT IN ('HumanResources', 'Purchasing');")
     tables = []
     for row in cursor.fetchall():
         tables.append((row.TABLE_SCHEMA, row.TABLE_NAME))
@@ -40,12 +40,18 @@ def list_tables(cursor):
 
 def export_table_to_csv(cursor, schema_name, table_name, output_dir):
     """Export the data from a table to a CSV file."""
+    output_file = os.path.join(output_dir, f"{schema_name}_{table_name}.csv")
+
+    # Vérifiez si le fichier existe déjà
+    if os.path.exists(output_file):
+        print(f"File {output_file} already exists. Skipping export.")
+        return
+    
     print(f"Exporting table {schema_name}.{table_name} to CSV...")
     cursor.execute(f"SELECT * FROM [{schema_name}].[{table_name}];")
     columns = [column[0] for column in cursor.description]
     rows = cursor.fetchall()
-    
-    output_file = os.path.join(output_dir, f"{schema_name}_{table_name}.csv")
+
     with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(columns)  # Write column headers
