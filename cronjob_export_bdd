@@ -1,0 +1,1 @@
+0 20-23,0-6 * * * python3 /Users/sims/Documents/Simplon_DEV_IA/Projets/AdventureWorks/adventureworks/export_db.py >> /Users/sims/Documents/Simplon_DEV_IA/Projets/AdventureWorks/adventureworks/export_log.log 2>&1
